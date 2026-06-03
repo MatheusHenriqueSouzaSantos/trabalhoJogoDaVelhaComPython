@@ -8,7 +8,7 @@ import pygame
 from jogo_da_velha import criar_board, faz_movimento, get_input_valido, \
     print_board, verifica_ganhador, verica_movimento
 
-from minimax import movimento_ia
+from minimax import movimento_ia, movimentoIA_facil,movimentoIA_medio
 
 pygame.mixer.init()
 pygame.mixer.music.load('musica.mp3')
@@ -42,10 +42,46 @@ def redraw_window(win, board):
     win.fill((69, 121, 217))
     draw_board(win, board)
 
-def main():
+def tela_inicial():
     win = pygame.display.set_mode((600, 600))
-    pygame.display.set_caption("Jogo da Velha")
+    win.fill((69, 121, 217))
+    pygame.display.set_caption("Escolha a Dificuldade")
+    
+    font = pygame.font.SysFont('comicsans', 100)
+    botao_dificuldade_facil = pygame.Rect(257, 303, 80, 55)
+    pygame.draw.rect(win, (255, 255, 255), botao_dificuldade_facil)
+    texto_dificuldade_facil = font.render("Facil!", True, (255, 255, 255))
+    win.blit(texto_dificuldade_facil, (140, 230))
 
+    botao_dificuldade_medio = pygame.Rect(257, 303, 80, 55)
+    pygame.draw.rect(win, (255, 255, 255), botao_dificuldade_medio)
+    texto_dificuldade_medio = font.render("Médio!", True, (255, 255, 255))
+    win.blit(texto_dificuldade_medio, (140, 230))
+
+    botao_dificuldade_dificil = pygame.Rect(257, 303, 80, 55)
+    pygame.draw.rect(win, (255, 255, 255), botao_dificuldade_dificil)
+    texto_dificuldade_dificil = font.render("Médio!", True, (255, 255, 255))
+    win.blit(texto_dificuldade_dificil, (140, 230))
+
+    pygame.display.update()
+
+    while(True):
+        pos = pygame.mouse.get_pos()
+        if(dificuldade=="facil"):
+            main(movimentoIA_facil)
+            return
+        if(dificuldade=="medio"):
+            main(movimentoIA_medio)
+            return
+        main(movimento_ia)
+
+
+
+def main(funcaoMovimento,win,nivel_dificuldade):
+    pygame.display.set_caption("Jogo da Velha")
+    font = pygame.font.SysFont('comicsans', 300)
+    texto_nivel_dificuldade = font.render(nivel_dificuldade, True, (255, 255, 255))
+    win.blit(texto_nivel_dificuldade, (140, 230))
     board = criar_board()
 
     redraw_window(win, board)
@@ -74,7 +110,7 @@ def main():
                         if 0 <= i < 3 and 0 <= j < 3:
                             jogou = True
         else:
-            i, j = movimento_ia(board, jogador)
+            i, j = funcaoMovimento(board, jogador)
 
         if verica_movimento(board, i, j):
             faz_movimento(board, i, j, jogador)
@@ -121,7 +157,7 @@ def main():
 
                 if botao_reiniciar.collidepoint(pos):
                     pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
-                    main()   
+                    tela_inicial()   
                     return    
 
-main()
+tela_inicial()

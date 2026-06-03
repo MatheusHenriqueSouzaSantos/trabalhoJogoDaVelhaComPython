@@ -74,3 +74,9 @@ def movimentoIA_facil(board,jogador):
     posicoes=get_posicoes(board)
     escolha=random.choice(posicoes)
     return escolha[0],[1]
+
+def movimentoIA_medio(board,jogador):
+    numero_aleatorio=random.uniform(0.0,10.0)
+    if(numero_aleatorio<0.5):
+        return movimento_ia(board,jogador)
+    return movimentoIA_facil(board,jogador)
