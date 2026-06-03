@@ -39,7 +39,7 @@ def draw_board(win, board):
             win.blit(text, ((x + 75), (y + 75)))
 
 def redraw_window(win, board):
-    win.fill((153, 51, 153))
+    win.fill((69, 121, 217))
     draw_board(win, board)
 
 def main():
@@ -57,7 +57,7 @@ def main():
     while(not ganhador):
         i = None
         j = None
-        print_board(board)
+        
 
         if jogador == 0:
             jogou = False
@@ -82,13 +82,46 @@ def main():
             if(not ganhador):
                 jogador = (jogador + 1) % 2
 
-        
         redraw_window(win, board)
         pygame.display.update()
+        print_board(board)
+    
+    font = pygame.font.SysFont('comicsans', 100)
+    texto=None
+    if(ganhador=="EMPATE"):
+        texto = font.render("EMPATE!", True, (255, 255, 255))
+        win.blit(texto, (140, 230))
+        
+    else:
+        texto = font.render("Vencedor: " + ganhador + " ", True, (255, 255, 255))
+        win.blit(texto, (90, 230))
+    
+    botao_reiniciar = pygame.Rect(257, 303, 80, 55)
+    pygame.draw.rect(win, (255, 255, 255), botao_reiniciar)
+    imagem_reiniciar = pygame.image.load("reiniciar.png")
+    imagem_reiniciar = pygame.transform.scale(
+    imagem_reiniciar,
+    (40, 40)
+    )
+    win.blit(imagem_reiniciar, (275, 310))
+    pygame.display.update()
 
     while(True):
+        pos = pygame.mouse.get_pos()
+
+        if botao_reiniciar.collidepoint(pos):
+            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+        else:
+            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
         for event in pygame.event.get():
             if (event.type == pygame.QUIT):
                 return
+            elif event.type == pygame.MOUSEBUTTONUP:
+                pos = event.pos
+
+                if botao_reiniciar.collidepoint(pos):
+                    pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
+                    main()   
+                    return    
 
 main()

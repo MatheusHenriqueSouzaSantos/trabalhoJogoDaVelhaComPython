@@ -1,4 +1,5 @@
 from jogo_da_velha import branco, token, verifica_ganhador
+import random
 
 score = {
     "EMPATE": 0,
@@ -68,3 +69,8 @@ def minimax(board, jogador):
                 melhor_valor = valor
     
     return melhor_valor
+
+def movimentoIA_facil(board,jogador):
+    posicoes=get_posicoes(board)
+    escolha=random.choice(posicoes)
+    return escolha[0],[1]
