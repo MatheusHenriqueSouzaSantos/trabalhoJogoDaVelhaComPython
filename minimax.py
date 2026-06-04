@@ -73,7 +73,7 @@ def minimax(board, jogador):
 def movimentoIA_facil(board,jogador):
     posicoes=get_posicoes(board)
     escolha=random.choice(posicoes)
-    return escolha[0],[1]
+    return escolha[0],escolha[1]
 
 def movimentoIA_medio(board,jogador):
     numero_aleatorio=random.uniform(0.0,10.0)
